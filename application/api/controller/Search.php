@@ -9,10 +9,11 @@
 namespace app\api\controller;
 
 use app\api\validate\SearchValidate;
+use app\api\model\UserSearchLog as searchlog;
 
 class Search
 {
-    //特定查询
+    //特定查询 泛查询
     public function special(){
 
         (new SearchValidate())->goCheck();
@@ -26,19 +27,6 @@ class Search
         return json($result);
     }
 
-    //泛查询
-    public function widely(){
-
-        (new SearchValidate())->goCheck();
-
-        //手机号码
-        $mobile = input("mobile");
-
-        $result = $this->search($mobile,'');
-
-        return json($result);
-    }
-
     //条件查询
     public function condition(){
 
@@ -47,6 +35,9 @@ class Search
     //查询历史
     public function history(){
         //手机号、状态(true\false)
+        $result = searchlog::getHistory();
+
+        return json($result);
     }
 
     //载入策略
@@ -86,12 +77,18 @@ class Search
 
         //测试环境下app_debug=true，$result为模拟数据，CheckResult随机生成
         if (config('app.app_debug')){
+            $randomresult = rand(0,1)?true:false;
             $result = [];
             $result['error_code'] = 0;
-            $result['reason'] = 0;
+            $result['reason'] = "成功";
             $result['result']['Mobile'] = $mobile;
             $result['result']['Area'] = $areacode;
-            $result['result']['CheckResult'] = rand(0,1)?true:false;
+            $result['result']['CheckResult'] = $randomresult;
+        }
+
+        if ($result['error_code'] == 0){
+            //记录查询日志
+            searchlog::saveHistory($result);
         }
 
         return $result;

@@ -8,11 +8,31 @@
 
 namespace app\api\controller;
 use app\api\model\User as MUser;
+use app\api\validate\UserRegisterValidate;
 
 class User
 {
     public function register(){
+
+        (new  UserRegisterValidate())->goCheck();
         $m = new MUser();
         $rs = $m->regist();
+
+        return json($rs);
+    }
+
+    public function login(){
+        $m = new MUser();
+        $rs = $m->checkLogin();
+
+        return json($rs);
+    }
+
+    //剩余查询积分
+    public function points(){
+        $m = new MUser();
+        $rs = $m->getPoint();
+
+        return json(ANTIReturn($rs,1));
     }
 }

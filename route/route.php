@@ -8,29 +8,32 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
 //查询历史
 //关注人员
 //计划任务
 //位置记录
 
-//特定查询
-Route::get('search/special/:member_id', 'api/search/special');
-
-//范查询
-Route::get('search/widely/:member_id', 'api/search/widely');
+//特定查询、范查询
+Route::get('search/special', 'api/search/special');
 
 //条件查询
-Route::get('search/condition/:member_id', 'api/search/condition');
-
-//剩余查询积分
-Route::get('search/points/:member_id', 'api/home/points');
+Route::get('search/condition', 'api/search/condition');
 
 //查询历史
-Route::get('search/history/:member_id', 'api/search/history');
+Route::get('search/history', 'api/search/history');
 
 //载入策略
-Route::get('search/get/:member_id', 'api/search/get');
+Route::get('search/get', 'api/search/get');
 
 //保存策略
-Route::get('search/save/:member_id', 'api/search/save');
+Route::get('search/save', 'api/search/save');
+
+//剩余查询积分
+Route::get('user/points', 'api/user/points');
+
+//用户登录
+Route::post('user/login', 'api/user/login');
+
+//用户注册
+Route::post('user/register', 'api/user/register');
+
