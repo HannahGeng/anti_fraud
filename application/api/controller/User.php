@@ -8,6 +8,7 @@
 
 namespace app\api\controller;
 use app\api\model\User as MUser;
+use app\api\validate\UserLoginValidate;
 use app\api\validate\UserRegisterValidate;
 
 class User
@@ -22,6 +23,8 @@ class User
     }
 
     public function login(){
+
+        (new  UserLoginValidate())->goCheck();
         $m = new MUser();
         $rs = $m->checkLogin();
 
@@ -30,6 +33,7 @@ class User
 
     //剩余查询积分
     public function points(){
+
         $m = new MUser();
         $rs = $m->getPoint();
 

@@ -17,8 +17,8 @@ class UserRegisterValidate extends BaseValidate
     ];
 
     protected $message = [
-        'mobile' => '手机号不得为空|手机号格式错误',
+        'user_phone' => '手机号不得为空|手机号格式错误',
         'login_pwd' => 'login_pwd不得为空',
-        're_pwd' => 're_pwd不得为空',
+        're_pwd' => 're_pwd不得为空'
     ];
 }

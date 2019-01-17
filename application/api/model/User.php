@@ -36,6 +36,7 @@ class User
             return ANTIReturn("两次输入密码不一致!");
         }
 
+        var_dump($data);
         foreach ($data as $v){
             if($v ==''){
                 return ANTIReturn("注册信息不完整!");
@@ -57,7 +58,7 @@ class User
         $userId = Db::name('user')->insert($data);
 
         if(false !== $userId){
-            session('ANTI_USERuserPhone',$data['userPhone']);
+            session('ANTI_USERuserPhone',$data['user_phone']);
             return ANTIReturn("注册成功！",1);
         }
 

@@ -8,8 +8,10 @@
 
 namespace app\api\controller;
 
+use app\api\validate\ConditionValidate;
 use app\api\validate\SearchValidate;
 use app\api\model\UserSearchLog as searchlog;
+use think\Log;
 
 class Search
 {
@@ -30,6 +32,25 @@ class Search
     //条件查询
     public function condition(){
 
+        (new ConditionValidate())->goCheck();
+        //手机号码
+        $mobile = input("get.mobile");
+        //区号
+        $areacodes = input("get.areacodes");
+
+        $areacode_arr = explode(',',$areacodes);
+
+        foreach ($areacode_arr as $v){
+
+            $result = $this->search($mobile,$v);
+
+            if ($result['result']['CheckResult']){
+                return json($result);
+            }
+        }
+
+        return json($result);
+
     }
 
     //查询历史
@@ -47,7 +68,7 @@ class Search
 
     //保存策略
     public function save(){
-
+        
     }
 
     /**
@@ -57,6 +78,7 @@ class Search
      * @return array|mixed
      */
     public function search($mobile,$areacode){
+
         //首先检测是否支持curl
         if (!extension_loaded("curl")) {
             trigger_error("对不起，请开启curl功能模块！", E_USER_ERROR);
